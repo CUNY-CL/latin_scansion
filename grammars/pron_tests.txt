@@ -1,0 +1,35 @@
+# Tests
+test_pron_1 = AssertEqual[
+    "gentis honōs haerent īnfixī pectore vultūs" @ PRON, 
+    "gentis honoːs hajrent iːnfiksiː pektore wultuːs"
+]; # Testing for macronized vowels, "ae" diphthong, "v," "x," and "c"
+
+test_pron_2 = AssertEqual[
+    "heu quianam tantī cīnxērunt aethera nimbī" @ PRON, 
+    "heu kwjjanãːm tantiː kiːnkseːrunt ajtera nimbiː"
+]; # Testing for intervocalic "i," "qu," "th," and nasalized "m"
+
+test_pron_3 = AssertEqual[
+    "nec tēcum ausonium quīcumque est quaerere thybrim" @ PRON, 
+    "nek teːkũːm ausonjũːm kwiːkumkwe est kwajrere tubrĩːm"
+]; # Testing "y"
+
+test_pron_4 = AssertEqual[
+    "dīxerat haec adytīs cum lūbricus anguis ab īmīs" @ PRON, 
+    "diːkserat hajc adutiːs cũːm luːbrikus aŋwis ab iːmiːs"
+]; # Testing for "ng"
+
+test_pron_5 = AssertEqual[
+    "centaurō invehitur magnā scyllāque cloanthus" @ PRON, 
+    "kentauroː inwehitur maŋnaː skullaːkwe kloantus"
+]; # Testing for "gn"
+
+test_pron_6 = AssertEqual[
+    "subsīdunt undae tumidumque sub axe tonantī" @ PRON, 
+    "supsiːdunt undaj tumidumkwe sub akse tonantiː"
+]; # Testing for "bs"
+
+# Questions:
+# What are the transcriptions for these: ei, eu, au, oa, ui
+# Is the "m" in quīcumque nasalized?
+# Is the "m" in tumidumque nasalized?
