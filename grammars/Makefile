@@ -1,4 +1,4 @@
-normalize.far: normalize.grm byte.far casefold.tsv
+pron.far: pron.grm byte.far
 	thraxcompiler --input_grammar=$< --output_far=$@
 
 byte.far: byte.grm 

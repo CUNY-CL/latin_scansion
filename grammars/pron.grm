@@ -3,15 +3,15 @@
 import 'byte.grm' as b;
 
 # Note: the Romans never used "v" or "j," but some secondary sources do.
-grapheme = 
+grapheme =
     "a" | "b" | "c" | "d" | "e" | "f" | "g" |
     "h" | "i" | "j" | "k" | "l" | "m" | "n" |
     "o" | "p" | "q" | "r" | "s" | "t" | "u" |
     "v" | "w" | "x" | "y" | "z" | "ā" | "ē" |
-    "ī" | "ō" | "ū" | b.kSpace;
+    "ī" | "ō" | "ū" | "ȳ" | b.kSpace;
 
-phoneme = 
-    "a" | "aː" | "ãː" | "b" | "d" | "e" | "eː" | 
+phoneme =
+    "a" | "aː" | "ãː" | "b" | "d" | "e" | "eː" |
     "ẽː" | "f" | "g" | "h" | "i" | "iː" | "ĩː" |
     "j" | "k" | "kw" | "l" | "m" | "n" | "ŋ" |
     "o" | "oː" | "õː" | "p" | "r" | "s" | "t" |
@@ -24,7 +24,7 @@ eow = (b.kSpace | "[EOS]"); # End of a word.
 
 vowels = "a" | "e" | "i" | "o" | "u" | "ā" | "ē" | "ī" | "ō" | "ū";
 
-# These words form an "eu" dipthong, rather than the normal hiatus.                                
+# These words form an "eu" dipthong, rather than the normal hiatus.
 eu_exceptions = Optimize[CDRewrite[("heus": "hews") |
                                    ("ceu" : "kew") |
                                    ("neu" : "new") |
@@ -35,12 +35,12 @@ eu_exceptions = Optimize[CDRewrite[("heus": "hews") |
 ou_exceptions = Optimize[CDRewrite[("boum": "bowũː") |
                                    ("prout" : "prowt"), bow, eow, sigma_star]];
 
-# These words form an "ui" dipthong, rather than the normal hiatus. 
+# These words form an "ui" dipthong, rather than the normal hiatus.
 ui_exceptions = Optimize[CDRewrite[("hui": "huj") |
                                    ("huic" : "hujk") |
                                    ("cui" : "kuj"), bow, eow, sigma_star]];
 
-# These words form an "ei" dipthong, rather than the normal hiatus. 
+# These words form an "ei" dipthong, rather than the normal hiatus.
 ei_exceptions = Optimize[CDRewrite[("dein": "dẽːj") |
                                    ("deinde" : "dẽːjde") |
                                    ("deinceps" : "dẽːjkeps") |
@@ -54,10 +54,10 @@ u_loss = Optimize[CDRewrite[("nguu": "ngu") |
 
 qu = Optimize[CDRewrite["qu" : "kw", "", "", sigma_star]];
 
-# When an "i" occurs intervocalically (between two vowels), 
+# When an "i" occurs intervocalically (between two vowels),
 # it is realized as a glide: [jj].
 geminate_intervocalic_i = Optimize[CDRewrite["i" : "jj",
-                                   vowels - ("i" | "ī"), 
+                                   vowels - ("i" | "ī"),
                                    vowels - ("i" | "ī"), sigma_star]];
 
 # The Romans wrote various Greek letters as digraphs: "ph," "ch," and "th."
@@ -74,10 +74,10 @@ nasalization = Optimize[CDRewrite[("a" : "ãː") |
                                    ("e" : "ẽː") |
                                    ("i" : "ĩː") |
                                    ("o" : "õː") |
-                                   ("u" : "ũː" ), 
+                                   ("u" : "ũː" ),
                                    "", ("m" | "n") eow, sigma_star]];
 delete_m_n = Optimize[CDRewrite[("m" | "n") : "",
-                                "", 
+                                "",
                                 eow, sigma_star]];
 nasalization_and_elision = Optimize[nasalization @ delete_m_n];
 
@@ -90,12 +90,12 @@ unconditioned_rewrites = Optimize[CDRewrite[("c" : "k") |
                                             ("y" : "u"), "", "", sigma_star]];
 
 # "n" is pronounced [ŋ] before velar sounds [k, g].
-nasal_place_assimilation = Optimize[CDRewrite["n" : "ŋ", "", 
+nasal_place_assimilation = Optimize[CDRewrite["n" : "ŋ", "",
                                               "k" | "g", sigma_star]];
 
 gn = Optimize[CDRewrite[("gn" : "ŋn"), "", "", sigma_star]];
 
-diphthongization = Optimize[CDRewrite[("ae" : "aj") | 
+diphthongization = Optimize[CDRewrite[("ae" : "aj") |
                                       ("oe" : "oj") |
                                       ("au" : "aw"), "", "", sigma_star]];
 
@@ -108,8 +108,8 @@ long_monophthongs = Optimize[CDRewrite[("ā" : "aː") |
 
 rules = Optimize[eu_exceptions @ ou_exceptions @ ui_exceptions
                 @ ei_exceptions @ u_loss @ qu @ geminate_intervocalic_i
-                @ digraphs @ b_devoicing @ nasalization_and_elision 
-                @ ngu @ unconditioned_rewrites @ nasal_place_assimilation 
+                @ digraphs @ b_devoicing @ nasalization_and_elision
+                @ ngu @ unconditioned_rewrites @ nasal_place_assimilation
                 @ gn @ diphthongization @ long_monophthongs];
 
 # Limits input to the graphemes and output to the phonemes.
@@ -117,37 +117,37 @@ export PRON = grapheme* @ rules @ phoneme*;
 
 # Tests.
 test_pron_1 = AssertEqual[
-    "gentis honōs haerent īnfixī pectore vultūs" @ PRON, 
+    "gentis honōs haerent īnfixī pectore vultūs" @ PRON,
     "gentis honoːs hajrent iːnfiksiː pektore wultuːs"
 ]; # Testing for macronized vowels, "ae" diphthong, "v," "x," and "c."
 
 test_pron_2 = AssertEqual[
-    "heu quianam tantī cīnxērunt aethera nimbī" @ PRON, 
+    "heu quianam tantī cīnxērunt aethera nimbī" @ PRON,
     "heu kwianãː tantiː kiːŋkseːrunt ajtera nimbiː"
 ]; # Testing for intervocalic "i," "qu," "th," and nasalized "m."
 
 test_pron_3 = AssertEqual[
-    "nec tēcum ausonium quīcumque est quaerere thybrim" @ PRON, 
+    "nec tēcum ausonium quīcumque est quaerere thybrim" @ PRON,
     "nek teːkũː awsoniũː kwiːkumkwe est kwajrere tubrĩː"
 ]; # Testing for "y."
 
 test_pron_4 = AssertEqual[
-    "dīxerat haec adytīs cum lūbricus anguis ab īmīs" @ PRON, 
+    "dīxerat haec adytīs cum lūbricus anguis ab īmīs" @ PRON,
     "diːkserat hajk adutiːs kũː luːbrikus aŋgwis ab iːmiːs"
 ]; # Testing for "ng."
 
 test_pron_5 = AssertEqual[
-    "centaurō invehitur magnā scyllāque cloanthus" @ PRON, 
+    "centaurō invehitur magnā scyllāque cloanthus" @ PRON,
     "kentawroː inwehitur maŋnaː skullaːkwe kloantus"
 ]; # Testing for "gn."
 
 test_pron_6 = AssertEqual[
-    "subsīdunt undae tumidumque sub axe tonantī" @ PRON, 
+    "subsīdunt undae tumidumque sub axe tonantī" @ PRON,
     "supsiːdunt undaj tumidumkwe sub akse tonantiː"
 ]; # Testing for "bs."
 
 test_pron_7 = AssertEqual[
-    "vēlōcem mnēstheus agit ācrī rēmige pristim" @ PRON, 
+    "vēlōcem mnēstheus agit ācrī rēmige pristim" @ PRON,
     "weːloːkẽː mneːsteus agit aːkriː reːmige pristĩː"
 ]; # Testing to make sure "mnēstheus" does not glide.
 
