@@ -1,0 +1,148 @@
+# Tags the elements of syllables as onsets, nuclei and codas.
+# Determines whether syllables are heavy or heavy.
+# Maps syllables onto feet: dactyl, spondee, or trochee.
+# Defines the hexameter line.
+
+import 'inventory.grm' as i;
+import 'byte.grm' as b;
+import 'utility.grm' as u;
+
+sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME)*;
+
+## Syllable parsing.
+
+long_nucleus = Optimize[u.Rewrite[i.LONG_VOWEL : "-", sigma_star]];
+
+short_nucleus = Optimize[u.Rewrite[i.SHORT_VOWEL : "U", sigma_star]];
+
+muta_cum_liquida = ((i.STOP | "f") i.LIQUID) - ("tl" | "dl");
+s_cluster = "s" ((i.VOICELESS_STOP i.LIQUID?) - "tl");
+labiovelar = ("k" | "g" | "s") "w";
+
+onset = Optimize[CDRewrite[(muta_cum_liquida | s_cluster | labiovelar |
+                           i.CONSONANT) : "O", "", i.NUCLEUS, sigma_star]];
+
+coda = Optimize[u.Rewrite[i.CONSONANT+ : "C", sigma_star]];
+
+export SYLLABLE = Optimize[long_nucleus @ short_nucleus @ onset @ coda];
+
+## Syllable weight.
+
+heavy = ("O"?) ("U" "C" | "-" "C"?) : "L";
+light = "O"? "U" : "B";
+export WEIGHT = Optimize[u.Join[(light | heavy)+, " "]];
+
+## Foot types.
+
+dactyl = ("L" " "?) ("B" " "?) ("B" " "?): "D";
+spondee = ("L" " "?) ("L" " "?) : "S";
+trochee = ("L" " "?) ("B" " "?) : "T";
+export FEET = (dactyl | spondee | trochee)*;
+
+## Filters.
+
+# Filters footing to valid hexameter patterns.
+hexameter = Optimize[Project[(dactyl | spondee){5} (spondee | trochee),
+                     'output']];
+export SCAN = Optimize[SYLLABLE @ WEIGHT @ FEET @ hexameter];
+
+## Tests syllable parsing.
+test_syllable_1 = AssertEqual[
+  "arma wirũːkwe kanoː trojjaj kwiː priːmus ab oːris" @ SYLLABLE,
+  "UCOU OUO-OU OUO- OUCOUC O- O-OUC UC -OUC"
+];
+test_syllable_2 = AssertEqual[
+  "temperet aː lakrimiːs et jãː noks uːmida kajloː" @ SYLLABLE,
+  "OUCOUOUC - OUOUO-C UC O- OUC -OUOU OUCO-"
+];
+test_syllable_3 = AssertEqual[
+  "ajraːtoːs jamkwe ekskiːsaː trabe firma kawaːwit" @ SYLLABLE,
+  "UCO-O-C OUCOU UCO-O- OUOU OUCOU OUO-OUC"
+];
+test_syllable_4 = AssertEqual[
+  "juːdikiũː paridis spreːtajkwe injuːria formaj" @ SYLLABLE,
+  "O-OUOU- OUOUOUC O-OUCOU UCO-OUU OUCOUC"
+];
+test_syllable_5 = AssertEqual[
+  "faːs awt ille sinit superiː reːŋnaːtor olumpiː" @ SYLLABLE,
+  "O-C UC UCOU OUOUC OUOUO- O-CO-OUC UOUCO-"
+];
+test_syllable_6 = AssertEqual[
+  "tũː bitiaj dedit iŋkrepitaːns ille impiger hawsit" @ SYLLABLE,
+  "O- OUOUUC OUOUC UCOUOUO-C UCOU UCOUOUC OUCOUC"
+];
+test_syllable_7 = AssertEqual[
+  "hajret et interdũː gremioː fowet iːnskia diːdoː" @ SYLLABLE,
+  "OUCOUC UC UCOUCO- OUOU- OUOUC -COUU O-O-"
+];
+test_syllable_8 = AssertEqual[
+  "kũː wenit awlajiːs jãː seː reːgiːna superbiːs" @ SYLLABLE,
+  "O- OUOUC UCOUO-C O- O- O-O-OU OUOUCO-C"
+];
+
+## Tests weight.
+# Light syllable.
+test_weight_1 = AssertEqual["OU U" @ WEIGHT, "B B"];
+# Heavy by nature.
+test_weight_2 = AssertEqual["O-C O- -C -" @ WEIGHT, "L L L L"];
+# Heavy by position.
+test_weight_3 = AssertEqual["O-C OUC -C UC" @ WEIGHT, "L L L L"]; 
+
+# Complete foot mapping for "Mūsa, mihī causās memorā, quō nūmine laesō."
+test_line_1 = AssertEqual[
+  "muːsa mihiː kawsaːs memoraː kwoː nuːmine lajsoː" @ SYLLABLE,
+  "O-OU OUO- OUCO-C OUOUO- O- O-OUOU OUCO-"
+];
+test_line_2 = AssertEqual[
+  "O-OU OUO- OUCO-C OUOUO- O- O-OUOU OUCO-" @ WEIGHT,
+  "LB BL LL BBL L LBB LL"
+];
+test_line_3 = AssertEqual[
+  "LB BL LL BBL L LBB LL" @ FEET,
+  "DSDSDS"
+];
+test_scan_1 = AssertEqual[
+  "muːsa mihiː kawsaːs memoraː kwoː nuːmine lajsoː" @ SCAN,
+  "DSDSDS"
+];
+
+# Complete foot mapping for "Urbs antīqua fuit (Tyriī tenuēre colōnī)."
+test_line_5 = AssertEqual[
+  "urps antiːkwa fuit turiiː tenueːre koloːniː" @ SYLLABLE,
+  "UC UCO-OU OUUC OUOU- OUOU-OU OUO-O-"
+];
+test_line_6 = AssertEqual[
+  "UC UCO-OU OUUC OUOU- OUOU-OU OUO-O-" @ WEIGHT,
+  "L LLB BL BBL BBLB BLL"
+];
+test_line_7 = AssertEqual[
+  "L LLB BL BBL BBLB BLL" @ FEET,
+  "SDDDDS"
+];
+test_scan_2= AssertEqual[
+  "urps antiːkwa fuit turiiː tenueːre koloːniː" @ SCAN,
+  "SDDDDS"
+];
+
+# Complete foot mapping for "quidve dolēns rēgīna deum tot volvere cāsūs."
+test_line_8 = AssertEqual[
+  "kwidwe doleːns reːgiːna deũː tot wolwere kaːsuːs" @ SYLLABLE,
+  "OUCOU OUO-C O-O-OU OU- OUC OUCOUOU O-O-C"
+];
+test_line_9 = AssertEqual[
+  "OUCOU OUO-C O-O-OU OU- OUC OUCOUOU O-O-C" @ WEIGHT,
+  "LB BL LLB BL L LBB LL"
+];
+test_line_10 = AssertEqual[
+  "LB BL LLB BL L LBB LL" @ FEET,
+  "DSDSDS"
+];
+test_scan_3 = AssertEqual[
+  "kwidwe doleːns reːgiːna deũː tot wolwere kaːsuːs" @ SCAN,
+  "DSDSDS"
+];
+
+# Tests a defective line.
+test_defective_1 = AssertNull[
+  "kũː siːk uːnanimãː adlokwitur male saːna soroːrẽː" @ SCAN
+];

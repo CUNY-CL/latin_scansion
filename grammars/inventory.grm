@@ -1,0 +1,61 @@
+# Inventory definitions.
+#
+# The graphemic inputs here are assumed to be those of:
+#
+# Pharr, Clyde. 1964. Vergil's Aeneid: Books I-IV. Revised edition. D.C. Heath
+# and Company.
+
+import 'byte.grm' as b;
+
+# We include j, v, and diaeresized vowels because these are
+# present in Pharr's text.
+export GRAPHEME = Optimize[
+    "a" | "b" | "c" | "d" | "e" | "f" | "g" |
+    "h" | "i" | "j" | "k" | "l" | "m" | "n" |
+    "o" | "p" | "q" | "r" | "s" | "t" | "u" |
+    "v" | "w" | "x" | "y" | "z" | "ā" | "ē" |
+    "ī" | "ō" | "ū" | "ȳ" | "ä" | "ë" | "ï" |
+    "ö" | "ü" | b.kSpace];
+
+# Graphemic vowels.
+export VOWEL = Optimize[
+    "a" | "e" | "i" | "o" | "u" | "ā" | "ē" | "ī" | "ō" | "ū" |
+    "ȳ" | "ä" | "ë" | "ï" | "ö" | "ü"];
+
+# Phonemic vowels.
+oral_vowel = "a" | "e" | "i" | "o" | "u";
+nasal_vowel = "ã" | "ẽ" | "ĩ" | "õ" | "ũ";
+export SHORT_VOWEL = Optimize[oral_vowel | nasal_vowel];
+export LONG_VOWEL = SHORT_VOWEL "ː";
+
+# Phonemic consonants.
+export VOICELESS_STOP = Optimize["p" | "t" | "k"];
+export VOICED_STOP = Optimize["b" | "d" | "g"];
+export STOP = Optimize[VOICELESS_STOP | VOICED_STOP];
+export LIQUID = Optimize["l" | "r"];
+export CONSONANT = Optimize[STOP | LIQUID | "f" | "h" | "j" | "m" | "n" |
+                            "ŋ" |"s" | "w" | "z"];
+
+# Boundary symbols.
+export BOW = Optimize[b.kSpace | "[BOS]"];  # Beginning of a word.
+export EOW = Optimize[b.kSpace | "[EOS]"];  # End of a word.
+
+export PHONEME = Optimize[
+    "a" | "aː" | "ãː" | "b" | "d" | "e" | "eː" |
+    "ẽː" | "f" | "g" | "h" | "i" | "iː" | "ĩː" |
+    "j" | "k" | "kw" | "l" | "m" | "n" | "ŋ" |
+    "o" | "oː" | "õː" | "p" | "r" | "s" | "t" |
+    "u" | "uː" | "ũː" | "w" | "z" | b.kSpace];
+
+# Prosodic symbols.
+export NUCLEUS = Optimize["U" |  # Short nucleus.
+                          "-"];  # Long nucleus.
+export SYLLABLE = Optimize[NUCLEUS |
+                           "O" |  # Onset.
+                           "C"];  # Coda.
+export WEIGHT = Optimize["L" |  # Longum.
+                         "B"];  # Brevis.
+export FOOT = Optimize["D" |  # Dactyl.
+                       "S" |  # Spondee.
+                       "T"];  # Trochee.
+export PROSODIC_SYMBOL = Optimize[SYLLABLE | WEIGHT | FOOT];

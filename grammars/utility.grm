@@ -1,0 +1,26 @@
+# Various utility functions.
+#
+# Please do not add any FST exports to this file.
+
+import 'inventory.grm' as i;
+
+# Performs an unconditioned rewrite.
+func Rewrite[tau, sigma_star] {
+    return CDRewrite[tau, "", "", sigma_star];
+}
+
+# Rewrites an entire word using the inventory definitions
+# of BOW and EOW.
+func RewriteWord[tau, sigma_star] {
+    return CDRewrite[tau, i.BOW, i.EOW, sigma_star];
+}
+
+# Filters rule (cf. FSTP, p. 70) on closures of input and output vocabularies.
+func FilterRule[rule, input, output] {
+    return input* @ rule @ output*;
+}
+
+# Joins together the argument FST, separated by a particular delimiter.
+func Join[arg, sep] {
+  return arg (sep arg)*;
+}
