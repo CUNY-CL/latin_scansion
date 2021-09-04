@@ -7,7 +7,12 @@ import 'inventory.grm' as i;
 import 'byte.grm' as b;
 import 'utility.grm' as u;
 
-sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME)*;
+sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME | i.STRIKETHROUGH | "‿")*;
+
+insert_space_resyllabification = Optimize[CDRewrite[u.Insert[" "],
+                                          "", i.CONSONANT "‿", sigma_star]];
+
+delete_markups = Optimize[u.Rewrite[u.Delete[i.STRIKETHROUGH | "‿"], sigma_star]];
 
 ## Syllable parsing.
 
@@ -24,6 +29,8 @@ onset = Optimize[
   # "x", "mn", and "phth" onsets are found word-initially in Greek names.
   CDRewrite[(s_cluster | "ks" | "mn" | "pt") : "O",
             i.BOW, i.NUCLEUS, sigma_star] @
+  # Resyllabification consonants.
+  CDRewrite[i.CONSONANT : "O", "", "‿", sigma_star] @
   # This allows for both syllable parses of muta cum liquida clusters.
   CDRewrite[(muta_cum_liquida | labiovelar | i.CONSONANT) : "O",
             "", i.NUCLEUS, sigma_star, 'rtl', 'obl']
@@ -31,7 +38,8 @@ onset = Optimize[
 
 coda = Optimize[u.Rewrite[i.CONSONANT+ : "C", sigma_star]];
 
-export SYLLABLE = Optimize[long_nucleus @ short_nucleus @ onset @ coda];
+export SYLLABLE = Optimize[insert_space_resyllabification @ delete_markups @
+                            long_nucleus @ short_nucleus @ onset @ coda];
 
 ## Syllable weight.
 
@@ -193,4 +201,19 @@ test_syllable_2_278 = AssertEqual[
 # Tests a defective line.
 test_defective_1 = AssertNull[
   "kũː siːk uːnanimãː adlokwitur male saːna soroːrẽː" @ METER
+];
+
+## Tests syllable parsing on variable rule markups.
+
+test_syllable_resyllabify = AssertEqual[
+  "ab‿oris" @ SYLLABLE,
+  "U OUOUC"
+];
+test_syllable_elision = AssertEqual[
+  "multũ̶ː̶ ̶ille" @ SYLLABLE,
+  "OUCOUCOU"
+];
+test_syllable_h_deletion = AssertEqual[
+  "fuit‿h̶ok" @ SYLLABLE,
+  "OUU OUC"
 ];

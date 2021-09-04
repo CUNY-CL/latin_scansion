@@ -48,6 +48,12 @@ export PHONEME = Optimize[
     "o" | "oː" | "õː" | "p" | "r" | "s" | "t" |
     "u" | "uː" | "ũː" | "w" | "z" | b.kSpace];
 
+export STRIKETHROUGH = Optimize[
+    "a̶ ̶" | "e̶ ̶" | "i̶ ̶" | "o̶ ̶" | "u̶ ̶" | "ã̶ː̶ ̶" |
+    "ẽ̶ː̶ ̶" | "ĩ̶ː̶ ̶" | "õ̶ː̶ ̶" | "ũ̶ː̶ ̶" | "a̶ː̶ ̶" |
+    "e̶ː̶ ̶" | "i̶ː̶ ̶" | "o̶ː̶ ̶" | "u̶ː̶ ̶" | "o̶j̶ ̶" |
+    "a̶j̶ ̶" | "a̶w̶ ̶" | "h̶"];
+
 # Prosodic symbols.
 export NUCLEUS = Optimize["U" |  # Short nucleus.
                           "-"];  # Long nucleus.
