@@ -155,7 +155,7 @@ tum sīc adfārī et cūrās hīs dēmere dictīs:
 hīc canit et tua nōs ēn ultrō ad līmina mittit.
 Nōs tē Dardaniā incēnsā tuaque arma secūtī,
 nōs tumidum sub tē permēnsī classibus aequor,
-īdem ventūrōs tollemus in astra nepōtēs
+īdem ventūrōs tollēmus in astra nepōtēs
 imperiumque urbī dabimus. Tū moenia magnīs
 magna parā longumque fugae nē linque labōrem.
 Mūtandae sēdēs. Nōn haec tibi lītora suāsit
@@ -209,7 +209,7 @@ adnixī torquent spūmās et caerula verrunt.
 Servātum ex undīs Strophadum mē lītora prīmum
 excipiunt. Strophades Grajō stant nōmine dictae
 īnsulae Īoniō in magnō, quās dīra Celaenō
-Harpyiaeque colunt aliae, Phīnēia postquam
+Harpyjaeque colunt aliae, Phīnēia postquam
 clausa domus mēnsāsque metū līquēre priōrēs.
 Trīstius haud illīs mōnstrum, nec saevior ūlla
 pestis et īra deum Stygiīs sēsē extulit undīs.
@@ -223,7 +223,7 @@ Inruimus ferrō, et dīvōs ipsumque vocāmus
 in partem praedamque Jovem; tum lītore curvō
 exstruimusque torōs dapibusque epulāmur opīmīs.
 At subitae~horrificō lāpsū dē montibus adsunt
-Harpyiae et magnīs quatiunt clangōribus ālās,
+Harpyjae et magnīs quatiunt clangōribus ālās,
 dīripiuntque dapēs contāctūque omnia foedant
 immundō; tum vōx taetrum dīra inter odōrem.
 Rūrsum in sēcessū longō sub rūpe cavātā
@@ -246,7 +246,7 @@ sēmēsam praedam et vestīgia foeda relinquunt.
 īnfēlīx vātēs, rumpitque hanc pectore vōcem:
 "Bellum etiam prō caede boum strātīsque juvencīs,
 Lāomedontiadae, bellumne īnferre parātis
-et patriō Harpyiās īnsōntīs pellere rēgnō?
+et patriō Harpyjās īnsōntīs pellere rēgnō?
 Accipite ergō animīs atque haec mea fīgite dicta,
 quae Phoebō pater omnipotēns, mihi Phoebus Apollō
 praedīxit, vōbīs Furiārum ego maxuma pandō.
@@ -303,7 +303,7 @@ ante urbem in lūcō falsī Simoëntis ad undam
 lībābat cinerī Andromachē mānīsque vocābat
 Hectoreum ad tumulum, viridī quem caespite inānem
 et geminās, causam lacrimīs, sacrāverat ārās.
-Ut mē cōnspexit venientem et Trōia circum
+Ut mē cōnspexit venientem et Trōja circum
 arma āmēns vīdit, magnīs exterrita mōnstrīs
 dēriguit vīsū in mediō, calor ossa relīquit;
 lābitur et longō vix tandem tempore fātur:
@@ -362,7 +362,7 @@ et volucrum linguās et praepetis ōmina pennae,
 fāre age (namque omnis cursum mihi prospera dīxit
 relligiō, et cūnctī suāsērunt nūmine dīvī
 Ītaliam petere et terrās temptāre repostās;
-sōla novum dictūque nefās Harpyia Celaenō
+sōla novum dictūque nefās Harpyja Celaenō
 prōdigium canit et trīstīs dēnuntiat īrās
 obscēnamque famem) quae prīma perīcula vītō?
 Quidve sequēns tantōs possim superāre labōrēs?"
@@ -461,7 +461,7 @@ expediet, cursūsque dabit venerāta secundōs.
 Haec sunt quae nostrā liceat tē vōce monērī.
 Vāde age, et ingentem factīs fer ad aethera Trojam."
 Quae postquam vātēs sīc ōre effātus amīcō est,
-dōna dehinc aurō gravia sectōque elephantō
+dōna dehinc aurō gravia ac sectō elephantō
 imperat ad nāvīs ferrī, stīpatque carīnīs
 ingēns argentum Dōdōnaeōsque lebētas,
 lōrīcam cōnsertam hāmīs aurōque trilīcem,
@@ -546,7 +546,7 @@ et capita ante ārās Phrygiō vēlāmur amictū,
 praeceptīsque Helenī, dederat quae maxima, rīte
 Jūnōnī Argīvae jussōs adolēmus honōrēs.
 Haud mora, continuō perfectīs ordine vōtīs
-cornua vēlātārum obvertimus antemārum,
+cornua vēlātārum obvertimus antemnārum,
 Grajugenumque domōs suspectaque linquimus arva.
 Hinc sinus Herculeī (sī vēra est fāma) Tarentī
 cernitur; attollit sē dīva Lacīnia contrā,
@@ -564,7 +564,7 @@ laevam cūncta cohors rēmīs ventīsque petīvit.
 Tollimur in caelum curvātō gurgite, et īdem
 subductā ad mānīs īmōs dēsēdimus undā.
 Ter scopulī clāmōrem inter cava saxa dedēre,
-ter spūmam ēlisam et rōrantia vīdimus astra.
+ter spūmam ēlīsam et rōrantia vīdimus astra.
 Intereā fessōs ventus cum sōle relīquit,
 ignārīque viae Cyclōpum adlābimur ōrīs.
 Portus ab accessū ventōrum immōtus et ingēns

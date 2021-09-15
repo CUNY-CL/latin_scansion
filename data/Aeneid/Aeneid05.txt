@@ -35,7 +35,7 @@ et tandem laetī nōtae advertuntur harēnae.
 At procul ex celsō mīrātus vertice montis
 adventum sociāsque ratēs occurrit Acestēs,
 horridus in jaculis et pelle Libystidis ursae,
-Trōia Crīnīsō conceptum flūmine māter
+Trōja Crīnīsō conceptum flūmine māter
 quem genuit. Veterum nōn immemor ille parentum
 grātātur reducēs et gazā laetus agrestī
 excipit, ac fessōs opibus sōlātur amīcīs.
@@ -349,7 +349,7 @@ Tum pater Aenēās "Vestra" inquit "mūnera vōbīs
 certa manent, puerī et palmam movet ordine nēmō;
 mē liceat cāsūs miserārī īnsontis amīcī."
 Sīc fātus, tergum Gaetūlī immāne leōnis
-dat Salīo villīs onerōsum atque unguibus aureīs.
+dat Saliō villīs onerōsum atque unguibus aureīs.
 Hīc Nīsus "Sī tanta" inquit "sunt praemia victīs,
 et tē lāpsōrum miseret, quae mūnera Nīsō
 digna dabis, prīmam meruī quī laude corōnam,
@@ -596,7 +596,7 @@ Carpathium Libycumque secant (lūduntque per undās).
 Hunc mōrem cursūs atque haec certāmina prīmus
 Ascanius, Longam mūrīs cum cingeret Albam,
 rettulit, et prīscōs docuit celebrāre Latīnōs,
-quō puer ipse modō, sēcum quō Trōia pūbēs;
+quō puer ipse modō, sēcum quō Trōja pūbēs;
 Albānī docuēre suōs; hinc maxima porrō
 accēpit Rōma et patrium servāvit honōrem;
 Trojaque nunc puerī, Trojānum dīcitur agmen.
@@ -801,7 +801,7 @@ Tum Sāturnius haec domitor maris ēdidit altī:
 unde genus dūcis. Meruī quoque; saepe furōrēs
 compressī et rabiem tantam caelīque marisque.
 Nec minor in terrīs, Xanthum Simoëntaque testor,
-Aenēae mihi cūra tuī. Cum Trōia Achillēs
+Aenēae mihi cūra tuī. Cum Trōja Achillēs
 exanimāta sequēns impingeret agmina mūrīs,
 mīlia multa daret lētō, gemerentque replētī
 amnēs nec reperīre viam atque ēvolvere posset
@@ -867,5 +867,5 @@ difficilīs quondam multōrumque ossibus albōs
 cum pater āmissō fluitantem errāre magistrō
 sēnsit, et ipse ratem nocturnīs rēxit in undīs
 multa gemēns cāsūque animum concussus amīcī:
-"Ō nimium caelō et pelagō cōnfise serēnō,
+"Ō nimium caelō et pelagō cōnfīse serēnō,
 nūdus in ignōtā, Palinūre, jacēbis harēnā."

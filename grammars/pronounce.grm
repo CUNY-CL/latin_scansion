@@ -42,14 +42,15 @@ u_loss = Optimize[u.Rewrite[("nguu": "ngu") | ("quu" : "ku"), sigma_star]];
 qu = Optimize[u.Rewrite["qu" : "kw", sigma_star]];
 
 # If "gu" proceeds "n" and precedes a vowel, it is pronounced as a labiovelar.
-ngu = Optimize[CDRewrite["gu" : "gw", "n", i.VOWEL, sigma_star]];
+ngu = Optimize[CDRewrite["gu" : "gw", "n", i.PHONEMIC_VOWEL, sigma_star]];
 
 # These words form an "ei" diphthong, rather than the normal hiatus.
 ei_exceptions = Optimize[u.RewriteWord[("dein" : "dẽːj") |
                                        ("deinde" : "dẽːjde") |
                                        ("deinceps" : "dẽːjkeps") |
                                        ("ei" : "ej") |
-                                       ("hei" : "hej"),
+                                       ("hei" : "hej") |
+                                       ("heia" : "heja"),
                                        sigma_star]
 ];
 
@@ -80,11 +81,11 @@ ui_exceptions = Optimize[u.RewriteWord[("hui" : "huj") |
                                        sigma_star]
 ];
 
-diphthongization = Optimize[u.Rewrite[("ae" : "aj") |
-                                      ("oe" : "oj") |
-                                      ("au" : "aw"),
-                                      sigma_star]
-];
+ae_diphthonization = Optimize[u.Rewrite["ae": "aj", sigma_star]];
+
+oe_diphthonization = Optimize[u.Rewrite["oe" : "oj", sigma_star]];
+
+au_diphthonization = Optimize[u.Rewrite["au" : "aw", sigma_star]];
 
 # Diaeresis, indicating hiatus, no longer needs to be marked
 # after diphthong formation.
@@ -142,13 +143,14 @@ devoicing = Optimize[CDRewrite["b" : "p", "", "s" | "t", sigma_star]];
 
 
 rules = Optimize[
+    # Diphthong exceptions.
+    ei_exceptions @ eu_exceptions @ oi_exceptions @ ou_exceptions @ ui_exceptions @
     # Basic g2p rules.
     long_monophthongs @ digraphs @ unconditioned_rewrites @
     # Rules for labiovelars.
-    u_loss @ qu @ ngu @ gn
+    u_loss @ qu @ ngu @ gn @
     # Vowel rules.
-    ei_exceptions @ eu_exceptions @ oi_exceptions @ ou_exceptions @ ui_exceptions @
-    diphthongization @ diaeresis @
+    ae_diphthonization @ oe_diphthonization @ au_diphthonization @ diaeresis @
     # Gemination.
     geminates @ 
     # Nasal rules.
@@ -264,6 +266,12 @@ test_pron_17 = AssertEqual[
 test_pron_18 = AssertEqual[
     "praedam adservābant hūc undique trōia gaza" @ PRONOUNCE,
     "prajdãː adserwaːbant huːk undikwe troːia gazza"
+];
+
+# Tests "au" diphthongization.
+test_pron_19 = AssertEqual[
+    "aut pelagō danaum īnsidiās suspectaque dōna" @ PRONOUNCE,
+    "awt pelagoː danawm iːnsidiaːs suspektakwe doːna"
 ];
 
 # TODO:

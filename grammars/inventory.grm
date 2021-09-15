@@ -27,7 +27,7 @@ oral_vowel = "a" | "e" | "i" | "o" | "u";
 nasal_vowel = "ã" | "ẽ" | "ĩ" | "õ" | "ũ";
 export SHORT_VOWEL = Optimize[oral_vowel | nasal_vowel];
 export LONG_VOWEL = SHORT_VOWEL "ː";
-export PHONEMIC_VOWEL = SHORT_VOWEL | LONG_VOWEL;
+export PHONEMIC_VOWEL = SHORT_VOWEL | LONG_VOWEL | "ü";
 
 # Phonemic consonants.
 export VOICELESS_STOP = Optimize["p" | "t" | "k"];
@@ -50,9 +50,15 @@ export PHONEME = Optimize[
 
 export STRIKETHROUGH = Optimize[
     "a̶ ̶" | "e̶ ̶" | "i̶ ̶" | "o̶ ̶" | "u̶ ̶" | "ã̶ː̶ ̶" |
-    "ẽ̶ː̶ ̶" | "ĩ̶ː̶ ̶" | "õ̶ː̶ ̶" | "ũ̶ː̶ ̶" | "a̶ː̶ ̶" |
-    "e̶ː̶ ̶" | "i̶ː̶ ̶" | "o̶ː̶ ̶" | "u̶ː̶ ̶" | "o̶j̶ ̶" |
-    "a̶j̶ ̶" | "a̶w̶ ̶" | "h̶"];
+    "ẽ̶ː̶ ̶" | "ĩ̶ː̶ ̶" | "õ̶ː̶ ̶" | "ũ̶ː̶ ̶" | "ü̶ː̶ " |
+    "a̶ː̶ ̶" | "e̶ː̶ ̶" | "i̶ː̶ ̶" | "o̶ː̶ ̶" | "u̶ː̶ ̶" |
+    "ü̶m̶ ̶" | "o̶j̶ ̶" | "a̶j̶ ̶" | "a̶w̶ ̶" | "h̶"];
+
+export UMLAUT = Optimize["ü" | "ï"];
+
+export MARKUPS = Optimize[
+    STRIKETHROUGH | UMLAUT | "‿" | "͡"
+];
 
 # Prosodic symbols.
 export NUCLEUS = Optimize["U" |  # Short nucleus.

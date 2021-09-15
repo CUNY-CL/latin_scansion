@@ -5,15 +5,19 @@ import 'byte.grm' as b;
 import 'inventory.grm' as i;
 import 'utility.grm' as u;
 
-sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME | i.STRIKETHROUGH | "‿")*;
+sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME | i.MARKUPS)*;
 
 h_deletion = Optimize[
-    CDRewrite["h" : "h̶", "", "", sigma_star, 'ltr', 'opt']
+    # Delete medial "h" to permit additional variable rules, if needed (such as synizesis).
+    CDRewrite[u.Delete["h"] <1>,
+              i.PHONEME - b.kSpace, i.PHONEME - b.kSpace, sigma_star, 'ltr', 'opt'] @
+    CDRewrite[("h" : "h̶" <1>),
+              "", "", sigma_star, 'ltr', 'opt']
 ];
 
 # A final syllable ending in a vowel, letter m, or diphthong is removed
 # before a word beginning with a vowel (or an h-).
-elision = Optimize[CDRewrite[("a " : "a̶ ̶") |
+elision = Optimize[CDRewrite[(("a " : "a̶ ̶") |
                             ("e " : "e̶ ̶") |
                             ("i " : "i̶ ̶") |
                             ("o " : "o̶ ̶") |
@@ -27,68 +31,46 @@ elision = Optimize[CDRewrite[("a " : "a̶ ̶") |
                             ("eː " : "e̶ː̶ ̶") |
                             ("iː " : "i̶ː̶ ̶") |
                             ("oː " : "o̶ː̶ ̶") |
-                            ("uː " : "u̶ː̶ ̶")
-                            , "", "h̶"? i.PHONEMIC_VOWEL, sigma_star]];
+                            ("uː " : "u̶ː̶ ̶") |
+                            ("üm " : "ü̶m̶ ̶") |
+                            ("oj " : "o̶j̶ ̶") |
+                            ("aj " : "a̶j̶ ̶") |
+                            ("aw " : "a̶w̶ ̶")) <100>
+                            , "", "h̶"? i.PHONEMIC_VOWEL, sigma_star, 'ltr', 'opt']];
 
 # Word-final consonant reattaches to the following word with an initial vowel.
 resyllabification = Optimize[
-    CDRewrite[ " " : "‿",
-              i.CONSONANT, "h̶"? i.PHONEMIC_VOWEL, sigma_star]
+    CDRewrite[(" " : "‿") <10>,
+              i.CONSONANT, "h̶"? i.PHONEMIC_VOWEL, sigma_star, 'ltr', 'opt']
 ];
 
 # High vowels may strengthen to their corresponding glides when adjacent to
 # another vowel.
 synizesis = Optimize[
-    CDRewrite[((("i" | "iː") : "j") | (("u" | "uː") : "w")) <1000>,
-                "", i.PHONEMIC_VOWEL, sigma_star, 'ltr', 'opt'] @
-    CDRewrite[((("i" | "iː") : "j") | (("u" | "uː") : "w")) <1000>,
-                i.PHONEMIC_VOWEL, "", sigma_star, 'ltr', 'opt']
+    CDRewrite[u.Insert["͡"] <1000>,
+              ("i" | "iː" | "u" | "uː") , i.PHONEMIC_VOWEL, sigma_star, 'ltr', 'opt'] @
+    CDRewrite[u.Insert["͡"] <1000>,
+             i.PHONEMIC_VOWEL, ("i" | "iː" | "u" | "uː"), sigma_star, 'ltr', 'opt']
 ];
 
-# Glides may lenite to their corresponding vowels in labiovelars.
-# TODO: include [j] glide?
+# Glides may lenite to their corresponding vowels. 
 diaeresis = Optimize[
-    CDRewrite[("w" : "u") <1000>, "k" | "g", "", sigma_star, 'ltr', 'opt']
+    CDRewrite[("w" : "ü") <1000>,
+              "k" | "g", "", sigma_star, 'ltr', 'opt'] @
+    # "aw" diphthongs preceding final m may lenite.
+    CDRewrite[("w" : "ü") <1000>,
+              "", "m", sigma_star, 'ltr', 'opt'] @
+    CDRewrite[("jj" : "ï") <1000>,
+              i.PHONEMIC_VOWEL, i.PHONEMIC_VOWEL, sigma_star, 'ltr', 'opt']
 ];
 
 # Lengthening of a usually short syllable.
 # NB: this is not currently part of the exported VARIABLE cascade.
 diastole = Optimize[
     CDRewrite[(("a" : "aː") | ("e" : "eː") | ("i" : "iː") |
-              ("o" : "oː") | ("u" : "uː")) <10000>,
-              "", "", sigma_star, 'ltr', 'opt']
+              ("o" : "oː") | ("u" : "uː")),
+              "", "", sigma_star]
 ];
 
-export VARIABLE = Optimize[h_deletion @ resyllabification @ elision @
-                           synizesis @ diaeresis];
-
-# Tests elision markup
-test_elision = AssertEqual[
-    "tantajne animiːs" @ elision,
-    "tantajne̶ ̶animiːs"
-];
-
-# Tests h deletion + elision markup.
-test_elision_2 = AssertEqual[
-    "atkwe hominũː" @ h_deletion @ elision,
-    "atkwe̶ ̶h̶ominũː"
-];
-
-# Tests resyllabification markup.
-test_resyllabification = AssertEqual[
-    "ab oris" @ resyllabification,
-    "ab‿oris"
-];
-
-# Tests h deletion + resyllabification markup. 
-test_h_deletion = AssertEqual[
-    "fuit hok" @ h_deletion @ resyllabification,
-    "fuit‿h̶ok"
-];
-
-
-# TODOs:
-# * Hypermeter: when a period has an extra syllable ending in a vowel
-#   or m which is elided into the first word of the following period, often with -que words.
-#   (1.448 ajrea kuj gradibus surgeːbant liːmina neksajkwe)
-# * Systole
+export VARIABLE = Optimize[h_deletion @ resyllabification @
+                           synizesis @ diaeresis @ elision];
