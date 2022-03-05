@@ -4,13 +4,29 @@ import 'inventory.grm' as i;
 import 'byte.grm' as b;
 import 'utility.grm' as u;
 
-sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME)*;
+sigma_star = (i.PROSODIC_SYMBOL | i.PHONEME | i.MARKUPS)*;
+
+insert_space_resyllabification = Optimize[CDRewrite[u.Insert[" "],
+                                          "", i.CONSONANT "‿", sigma_star]];
+
+# Removes markups for elision and resyllabification.
+delete_strikethrough_undertie = Optimize[u.Rewrite[u.Delete[i.STRIKETHROUGH | "‿"],
+                                         sigma_star]];
+
+# Removes the ligature tie and rewrites "i" or "u" to "j" or "w," respectively.
+synizesis_cleanup = Optimize[
+  CDRewrite[(("i" | "iː") : "j") |
+            (("u" | "uː") : "w"), "", "͡" i.PHONEMIC_VOWEL, sigma_star] @
+  CDRewrite[(("i" | "iː") : "j") |
+            (("u" | "uː") : "w"), i.PHONEMIC_VOWEL "͡", "", sigma_star] @
+   u.Rewrite[u.Delete["͡"], sigma_star]
+ ];
 
 ## Syllable parsing.
 
 long_nucleus = Optimize[u.Rewrite[i.LONG_VOWEL : "-", sigma_star]];
 
-short_nucleus = Optimize[u.Rewrite[i.SHORT_VOWEL : "U", sigma_star]];
+short_nucleus = Optimize[u.Rewrite[i.SHORT_VOWEL | i.UMLAUT : "U", sigma_star]];
 
 obstruent = i.STOP | "f";
 muta_cum_liquida = (obstruent i.LIQUID) - ("tl" | "dl");
@@ -27,6 +43,10 @@ onset = Optimize[
             i.BOW,
             i.NUCLEUS,
             sigma_star] @
+
+  # Resyllabification consonants.
+  CDRewrite[i.CONSONANT : "O", "", "‿", sigma_star] @
+
   # Mandatorily splits medial "tl" and "dl" clusters into coda/onset.
   CDRewrite["l" : "O", "t" | "d", i.NUCLEUS, sigma_star] @
   # Optionally (and with non-zero cost) splits other muta cum liquida clusters
@@ -51,7 +71,9 @@ onset = Optimize[
 
 coda = Optimize[u.Rewrite[i.CONSONANT+ : "C", sigma_star]];
 
-export SYLLABLE = Optimize[long_nucleus @ short_nucleus @ onset @ coda];
+export SYLLABLE = Optimize[insert_space_resyllabification @
+                           delete_strikethrough_undertie @ synizesis_cleanup @
+                           long_nucleus @ short_nucleus @ onset @ coda];
 
 ## Tests syllable parsing.
 test_syllable_1 = AssertEqual[
@@ -104,4 +126,35 @@ test_ks_1 = AssertEqual[
 test_ks_2 = AssertEqual[
   "uːnius ob noksãː et furiaːs ajjaːkis oiːleiː" @ SYLLABLE,
   "-OUUC UC OUCO- UC OUOU-C UCO-OUC U-OU-"
+];
+
+## Tests syllable parsing on variable rule markups.
+
+test_syllable_resyllabify = AssertEqual[
+  "ab‿oris" @ SYLLABLE,
+  "U OUOUC"
+];
+test_syllable_elision = AssertEqual[
+  "multũ̶ː̶ ̶ille" @ SYLLABLE,
+  "OUCOUCOU"
+];
+test_syllable_h_deletion = AssertEqual[
+  "fuit‿h̶ok" @ SYLLABLE,
+  "OUU OUC"
+];
+test_syllable_synizesis_1 = AssertEqual[
+  "su͡aːsit" @ SYLLABLE,
+  "O-OUC"
+];
+test_syllable_synizesis_2 = AssertEqual[
+  "laːwiːni͡akwe" @ SYLLABLE,
+  "O-O-COUOU"
+];
+test_syllable_synizesis_3 = AssertEqual[
+  "awre͡iːs" @ SYLLABLE,
+  "UCOUC"
+];
+test_diaeresis_1 = AssertEqual[
+  "troːïa" @ SYLLABLE,
+  "O-UU"
 ];

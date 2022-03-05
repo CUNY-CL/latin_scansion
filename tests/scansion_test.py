@@ -37,8 +37,9 @@ class ScansionTest(unittest.TestCase):
             verse.raw_pron, "arma wirũːkwe kanoː trojjaj kwiː priːmus ab oːris"
         )
         self.assertEqual(
-            verse.var_pron, "arma wirũːkwe kanoː trojjaj kwiː priːmu sa boːris"
+            verse.var_pron, "arma wirũːkwe kanoː trojjaj kwiː priːmus‿ab‿oːris"
         )
+
         # Tests foot structures.
         self.assertEqual(verse.foot[0].type, latin_scansion.Foot.DACTYL)
         self.assertEqual(verse.foot[1].type, latin_scansion.Foot.DACTYL)
@@ -148,7 +149,7 @@ class ScansionTest(unittest.TestCase):
         text = "exciderant animō; manet altā mente repostum"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "ekskiderant animoː mane taltaː mente repostũː"
+            verse.var_pron, "ekskiderant animoː manet‿altaː mente repostũː"
         )
 
     # Tests that the grammar does not unnecessarily apply elision.
@@ -156,28 +157,30 @@ class ScansionTest(unittest.TestCase):
         text = "Ipsa Jovis rapidum jaculāta ē nūbibus ignem"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "ipsa jowis rapidũː jakulaːteː nuːbibu siŋnẽː"
+            verse.var_pron, "ipsa jowis rapidũː jakulaːta̶ ̶eː nuːbibus‿iŋnẽː"
         )
 
     def test_aen_1_247(self):
         text = "Hīc tamen ille urbem Patavī sēdēsque locāvit"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "hiːk tame nillurbẽː patawiː seːdeːskwe lokaːwit"
+            verse.var_pron,
+            "hiːk tamen‿ille̶ ̶urbẽː patawiː seːdeːskwe lokaːwit",
         )
 
     def test_aen_1_254(self):
         text = "Ollī subrīdēns hominum sator atque deōrum"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "olliː subriːdeːns hominũː sato ratkwe deoːrũː"
+            verse.var_pron, "olliː subriːdeːns hominũː sator‿atkwe deoːrũː"
         )
 
     def test_aen_1_450(self):
         text = "Hōc prīmum in lūcō nova rēs oblāta timōrem"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "hoːk priːmin luːkoː nowa reːs oblaːta timoːrẽː"
+            verse.var_pron,
+            "hoːk priːmũ̶ː̶ ̶in luːkoː nowa reːs oblaːta timoːrẽː",
         )
 
     def test_aen_1_477(self):
@@ -185,35 +188,36 @@ class ScansionTest(unittest.TestCase):
         verse = self.scan_verse(text)
         self.assertEqual(
             verse.var_pron,
-            "loːra teneːns tame nujk kerwiːkskwe komajkwe trahuntur",
+            "loːra teneːns tamen‿h̶ujk kerwiːkskwe komajkwe trahuntur",
         )
 
     def test_aen_1_593(self):
         text = "argentum Pariusve lapis circumdatur aurō."
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "argentũː pariuswe lapis kirkumdatu rawroː"
+            verse.var_pron, "argentũː pariuswe lapis kirkumdatur‿awroː"
         )
 
     def test_aen_1_649(self):
         text = "et circumtextum croceō vēlāmen acanthō,"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "et kirkumtekstũː krokeoː weːlaːme nakantoː"
+            verse.var_pron, "et kirkumtekstũː krokeoː weːlaːmen‿akantoː"
         )
 
     def test_aen_1_682(self):
         text = "nē quā scīre dolōs mediusve occurrere possit."
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "neː kwaː skiːre doloːs mediuswokkurrere possit"
+            verse.var_pron,
+            "neː kwaː skiːre doloːs mediuswe̶ ̶okkurrere possit",
         )
 
     def test_aen_1_697(self):
         text = "pallamque et pictum croceō vēlāmen acanthō."
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "pallãːkwet piktũː krokeoː weːlaːme nakantoː"
+            verse.var_pron, "pallãːkwe̶ ̶et piktũː krokeoː weːlaːmen‿akantoː"
         )
 
     # Tests handling of brackets.
@@ -238,7 +242,8 @@ class ScansionTest(unittest.TestCase):
         text = "bis medium amplexī, bis collō squāmea circum"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "bis mediampleksiː bis kolloː skwaːmea kirkũː"
+            verse.var_pron,
+            "bis mediũ̶ː̶ ̶ampleksiː bis kolloː skwaːmea kirkũː",
         )
 
     # Elision.
@@ -246,7 +251,8 @@ class ScansionTest(unittest.TestCase):
         text = "squālentem barbam et concrētōs sanguine crīnīs"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "skwaːlentẽː barbet koŋkreːtoːs saŋgwine kriːniːs"
+            verse.var_pron,
+            "skwaːlentẽː barbã̶ː̶ ̶et koŋkreːtoːs saŋgwine kriːniːs",
         )
 
     # Defective verse – first syllable is short.
@@ -275,14 +281,14 @@ class ScansionTest(unittest.TestCase):
         text = "praedam adservābant hūc undique trōja gaza"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "prajdadserwaːbant huːk undikwe troːia gazza"
+            verse.var_pron, "prajdã̶ː̶ ̶adserwaːbant huːk undikwe troːïa gazza"
         )
 
     def test_aen_3_158(self):
         text = "īdem ventūrōs tollēmus in astra nepōtēs"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "iːdẽː wentuːroːs tolleːmu si nastra nepoːteːs"
+            verse.var_pron, "iːdẽː wentuːroːs tolleːmus‿in‿astra nepoːteːs"
         )
 
     # Synizesis.
@@ -290,7 +296,7 @@ class ScansionTest(unittest.TestCase):
         text = "Mūtandae sēdēs. Nōn haec tibi lītora suāsit"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "muːtandaj seːdeːs noːn hajk tibi liːtora swaːsit"
+            verse.var_pron, "muːtandaj seːdeːs noːn hajk tibi liːtora su͡aːsit"
         )
 
     def test_aen_3_365(self):
@@ -304,7 +310,7 @@ class ScansionTest(unittest.TestCase):
         text = "dōna dehinc aurō gravia ac sectō elephantō"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "doːna dehiŋk awroː grawiak sektoː elepantoː"
+            verse.var_pron, "doːna dehiŋk awroː grawia̶ ̶ak sektoː elepantoː"
         )
 
     @unittest.skip("Requires diastole.")
@@ -319,7 +325,8 @@ class ScansionTest(unittest.TestCase):
         text = "ter spūmam ēlīsam et rōrantia vīdimus astra."
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "ter spuːmeːliːset roːrantia wiːdimu sastra"
+            verse.var_pron,
+            "ter spuːmã̶ː̶ ̶eːliːsã̶ː̶ ̶et roːrantia wiːdimus‿astra",
         )
 
     @unittest.skip("Requires diastole.")
@@ -335,7 +342,8 @@ class ScansionTest(unittest.TestCase):
         text = "Thyjas, ubi audītō stimulant trietērica Bacchō"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "tujja subawdiːtoː stimulant trieteːrika bakkoː"
+            verse.var_pron,
+            "tujjas‿ubi̶ ̶awdiːtoː stimulant trieteːrika bakkoː",
         )
 
     def test_aen_4_324(self):
@@ -349,14 +357,16 @@ class ScansionTest(unittest.TestCase):
         text = "Num flētū ingemuit nostrō? Num lūmina flexit?"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "nũː fleːtiŋgemuit nostroː nũː luːmina fleksit"
+            verse.var_pron,
+            "nũː fleːtu̶ː̶ ̶iŋgemuit nostroː nũː luːmina fleksit",
         )
 
     def test_aen_4_569(self):
         text = "Heja age, rumpe morās. Varium et mūtābile semper"
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "hejjage rumpe moraːs wariet muːtaːbile semper"
+            verse.var_pron,
+            "hejja̶ ̶age rumpe moraːs wariũ̶ː̶ ̶et muːtaːbile semper",
         )
 
     @unittest.skip("Requires diastole.")
@@ -391,7 +401,8 @@ class ScansionTest(unittest.TestCase):
         text = "dat Saliō villīs onerōsum atque unguibus aureīs."
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "dat salioː williːs oneroːsatkwuŋgwibu sawrejs"
+            verse.var_pron,
+            "dat salioː williːs oneroːsũ̶ː̶ ̶atkwe̶ ̶uŋgwibus‿awre͡iːs",
         )
 
     @unittest.skip("Requires diastole.")
@@ -414,7 +425,7 @@ class ScansionTest(unittest.TestCase):
         text = '"Ō nimium caelō et pelagō cōnfīse serēnō'
         verse = self.scan_verse(text)
         self.assertEqual(
-            verse.var_pron, "oː nimiũː kajlet pelagoː koːnfiːse sereːnoː"
+            verse.var_pron, "oː nimiũː kajlo̶ː̶ ̶et pelagoː koːnfiːse sereːnoː"
         )
 
     @unittest.skip("Requires synizesis, but Cj is not a valid onset.")
