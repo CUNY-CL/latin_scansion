@@ -2,7 +2,7 @@ import os
 import setuptools
 
 
-_VERSION = "0.1.1"
+_VERSION = "0.1.2"
 
 _THIS_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -34,11 +34,11 @@ def main():
         python_requires=">=3.7",
         zip_safe=False,
         setup_requires=["setuptools>=39"],
-        install_requires=["protobuf>=3.17.2"],
+        install_requires=["protobuf>=3.20.2"],
         entry_points={
             "console_scripts": [
-                "latin_scan = latin_scansion.scan:main",
-                "latin_validate = latin_scansion.validate:main",
+                "latin-scan = latin_scansion.scan:main",
+                "latin-validate = latin_scansion.validate:main",
             ]
         },
         classifiers=[

@@ -67,23 +67,23 @@ jobs:
               conda activate scansion
               pytest -v tests
       - run:
-          name: Runs latin_scan --help
+          name: Runs latin-scan --help
           working_directory: ~/project
           command: |
               source ~/.bashrc
               conda activate scansion
-              latin_scan --help
+              latin-scan --help
       - run:
-          name: Runs latin_validate --help
+          name: Runs latin-validate --help
           working_directory: ~/project
           command: |
               source ~/.bashrc
               conda activate scansion
-              latin_validate --help
+              latin-validate --help
       - run:
-          name: Runs latin_validate on .textprotos
+          name: Runs latin-validate on .textprotos
           working_directory: ~/project
           command: |
               source ~/.bashrc
               conda activate scansion
-              latin_validate data/*/*.textproto
+              latin-validate data/*/*.textproto
