@@ -3,8 +3,8 @@ channels:
  - defaults
  - conda-forge
 dependencies:
- - black=22.4.0
- - flake8=7.0.1
+ - black=22.3.0
+ - flake8=7.0.0
  - make=4.3
  - mypy=1.9.0
  - protobuf=3.20.3
