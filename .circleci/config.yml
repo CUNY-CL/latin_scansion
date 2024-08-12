@@ -24,19 +24,19 @@ jobs:
     steps:
     - checkout
     - run:
-      name: Build Thrax grammars
-      command: |
-        conda env create --quiet --file environment.yml
-        source ~/.bashrc
-        conda activate scansion
-        make -j -C grammars
-        make -C latin_scansion
+        name: Build Thrax grammars
+        command: |
+            conda env create --quiet --file environment.yml
+            source ~/.bashrc
+            conda activate scansion
+            make -j -C grammars
+            make -C latin_scansion
     - run:
         name: Build source distribution and install package from it
         command: |
-          pip install -r requirements.txt
-          python -m build
-          pip install dist/`ls dist/ | grep .whl`
+            pip install -r requirements.txt
+            python -m build
+            pip install dist/`ls dist/ | grep .whl`
     - run:
         name: Show installed Python packages
         command: pip list -v
@@ -59,9 +59,9 @@ workflows:
     - pre-build:
         name: twine
         command-run: |
-          python -m build && \
-          twine check dist/`ls dist/ | grep .tar.gz` && \
-          twine check dist/`ls dist/ | grep .whl`\n"
+            python -m build && \
+            twine check dist/`ls dist/ | grep .tar.gz` && \
+            twine check dist/`ls dist/ | grep .whl`\n"
     - build-python:
         matrix:
           parameters:
