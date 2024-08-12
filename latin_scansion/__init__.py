@@ -1,5 +1,3 @@
-import pkg_resources
-
 from .scansion import scan_document
 from .scansion import scan_verse
 from .scansion_pb2 import Document
