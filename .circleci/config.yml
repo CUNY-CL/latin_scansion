@@ -9,9 +9,6 @@ jobs:
         type: string
     docker:
     - image: continuumio/miniconda3
-      auth:
-        username: $DOCKERHUB_USERNAME
-        password: $DOCKERHUB_ACCESS_TOKEN
     steps:
     - checkout
     - run:
@@ -33,9 +30,6 @@ jobs:
           type: string
     docker:
     - image: cimg/python:<< parameters.python-version >>
-      auth:
-        username: $DOCKERHUB_USERNAME
-        password: $DOCKERHUB_ACCESS_TOKEN
     steps:
     - checkout
     - run:
