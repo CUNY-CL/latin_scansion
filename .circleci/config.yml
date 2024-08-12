@@ -1,18 +1,22 @@
 version: 2.1
 
-jobs: pre-build:
+jobs:
+  pre-build:
     description: A check that needs to be done on only one supported Python 
     version parameters:
-      command-run: type: string
+      command-run:
+        type: string
     docker:
-      # Use the latest Python 3.x image from CircleCI. See: 
-      # https://circleci.com/developer/images/image/cimg/python
-      - image: cimg/python:3.12.1 steps:
-      - checkout - run:
-          command: pip install -r requirements.txt - run:
-          command: << parameters.command-run >>
+      - image: cimg/python:3.12.1
+    steps:
+      - checkout
+      - run:
+         command: pip install -r requirements.txt
+      - run:
+         command: << parameters.command-run >>
 
-  build-python: parameters:
+  build-python:
+    parameters:
       python-version:
         type: string
      docker:
@@ -40,7 +44,8 @@ jobs: pre-build:
           name: Show installed Python packages
           command: pip list -v
       - run:
-          name: Run tests command: |
+          name: Run tests
+          command: |
               pytest -vv tests --junitxml /tmp/testxml/report.xml
       - store_test_results: path: /tmp/testxml/
 
