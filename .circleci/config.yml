@@ -20,12 +20,9 @@ jobs:
       - run:
           name: Builds source distribution
           working_directory: ~/project/
-          # Ensure we can build a source distribution that can correctly install.
-          # "python setup.py sdist" creates dist/latin_scansion-x.y.z.tar.gz
           command: |
-              pip install --progress-bar off --upgrade pip setuptools
-              python setup.py sdist
-              pip install dist/`ls dist/ | grep .tar.gz`
+              pip install --progress-bar off --upgrade pip
+              pip install -v .
       - run:
           name: Installs requirements
           working_directory: ~/project/
@@ -33,11 +30,11 @@ jobs:
       - run:
           name: Runs flake8 check
           working_directory: ~/project
-          command: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
+          command: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion
       - run:
           name: Runs black check
           working_directory: ~/project
-          command: black --line-length 79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
+          command: black --line-length 79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion tests
   build-python-3.9:
     <<: *template
     docker:
