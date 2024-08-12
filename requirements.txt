@@ -6,3 +6,4 @@ mypy>=1.11.1
 protobuf>=4.25.3
 pynini>=2.1.6.post1
 pytest>=8.3.2
+twine>=4.0.2

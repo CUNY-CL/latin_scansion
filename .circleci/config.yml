@@ -62,10 +62,7 @@ workflows:
         command-run: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion tests
     - pre-build:
         name: twine
-        command-run: |
-            python -m build && \
-            twine check dist/`ls dist/ | grep .tar.gz` && \
-            twine check dist/`ls dist/ | grep .whl`"
+        command-run: python -m build && twine check dist/*
     - build-python:
         matrix:
           parameters:
