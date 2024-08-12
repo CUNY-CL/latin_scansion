@@ -1,69 +1,91 @@
-version: 2.1
-
-
-jobs:
-  pre-build:
-    description: A check that needs to be done on only one supported Python
-    parameters:
-      command-run:
-        type: string
-    docker:
-    - image: continuumio/miniconda3
-    steps:
-    - checkout
-    - run:
-        command: pip install -r requirements.txt
-    - run:
-        name: Build Thrax grammars
-        command: |
-            conda env create --quiet --file environment.yml
-            source ~/.bashrc
-            conda activate scansion
-            make -j -C grammars
-            make -C latin_scansion
-    - run:
-        command: << parameters.command-run >>
-
-  build-python:
-    parameters:
-      python-version:
-          type: string
-    docker:
-    - image: cimg/python:<< parameters.python-version >>
-    steps:
-    - checkout
-    - run:
-        name: Build source distribution and install package from it
-        command: |
-            pip install --progress-bar off --requirement requirements.txt
-            pip install -v .
-    - run:
-        name: Show installed Python packages
-        command: pip list -v
-    - run:
-        name: Run tests
-        command: pytest -vv tests --junitxml /tmp/testxml/report.xml
-    - store_test_results:
-        path: /tmp/testxml/
+version: 2
 
 workflows:
   version: 2
-  build:
+  test:
     jobs:
-    - pre-build:
-        name: black
-        command-run: black --line-length=79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion tests
-    - pre-build:
-        name: flake8
-        command-run: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion tests
-    - pre-build:
-        name: twine
-        command-run: python -m build && twine check dist/*
-    - build-python:
-        matrix:
-          parameters:
-            python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
-        requires:
-        - black
-        - flake8
-        - twine
+      - build-python-3.8
+      - build-python-3.9
+      - build-python-3.10
+      - build-python-3.11
+      - build-python-3.12
+      - test-python
+
+jobs:
+  build-python-3.7: &template
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: Builds source distribution
+          working_directory: ~/project/
+          # Ensure we can build a source distribution that can correctly install.
+          # "python setup.py sdist" creates dist/latin_scansion-x.y.z.tar.gz
+          command: |
+              pip install --progress-bar off --upgrade pip setuptools
+              python setup.py sdist
+              pip install dist/`ls dist/ | grep .tar.gz`
+      - run:
+          name: Installs requirements
+          working_directory: ~/project/
+          command: pip install --progress-bar off --requirement requirements.txt 
+      - run:
+          name: Runs flake8 check
+          working_directory: ~/project
+          command: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
+      - run:
+          name: Runs black check
+          working_directory: ~/project
+          command: black --line-length 79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
+  build-python-3.8:
+    <<: *template
+    docker:
+      - image: python:3.8
+  build-python-3.9:
+    <<: *template
+    docker:
+      - image: python:3.9
+  test-python:
+    docker:
+      - image: continuumio/miniconda3
+    steps:
+      - checkout
+      - run:
+          name: Builds from source and runs tests
+          working_directory: ~/project
+          command: |
+              conda env create --quiet --file environment.yml
+              source ~/.bashrc
+              conda activate scansion
+              make -j -C grammars
+              make -C latin_scansion
+              pip install --editable .
+      - run:
+          name: Runs pytest
+          working_directory: ~/project
+          command: |
+              source ~/.bashrc
+              conda activate scansion
+              pytest -v tests
+      - run:
+          name: Runs latin-scan --help
+          working_directory: ~/project
+          command: |
+              source ~/.bashrc
+              conda activate scansion
+              latin-scan --help
+      - run:
+          name: Runs latin-validate --help
+          working_directory: ~/project
+          command: |
+              source ~/.bashrc
+              conda activate scansion
+              latin-validate --help
+      - run:
+          name: Runs latin-validate on .textprotos
+          working_directory: ~/project
+          command: |
+              source ~/.bashrc
+              conda activate scansion
+              latin-validate data/*/*.textproto
