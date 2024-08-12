@@ -32,17 +32,17 @@ jobs:
         make -j -C grammars
         make -C latin_scansion
     - run:
+        name: Build source distribution and install package from it
         command: |
           pip install -r requirements.txt
           python -m build
           pip install dist/`ls dist/ | grep .whl`
-        name: Build source distribution and install package from it
     - run:
-        command: pip list -v
         name: Show installed Python packages
+        command: pip list -v
     - run:
-        command: pytest -vv tests --junitxml /tmp/testxml/report.xml
         name: Run tests
+        command: pytest -vv tests --junitxml /tmp/testxml/report.xml
     - store_test_results:
         path: /tmp/testxml/
 
@@ -51,17 +51,17 @@ workflows:
   build:
     jobs:
     - pre-build:
-        command-run: black --line-length=79 --check .
         name: black
+        command-run: black --line-length=79 --check .
     - pre-build:
-        command-run: flake8 .
         name: flake8
+        command-run: flake8 .
     - pre-build:
+        name: twine
         command-run: |
           python -m build && \
           twine check dist/`ls dist/ | grep .tar.gz` && \
           twine check dist/`ls dist/ | grep .whl`\n"
-        name: twine
     - build-python:
         matrix:
           parameters:
