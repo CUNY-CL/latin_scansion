@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "latin-scansion"
+dynamic = ["version"]
+description = "Automated Latin scansion"
+readme = "README.md"
+license = "apache-2.0"
+requires-python = ">=3.8"
+authors = [
+    { name = "Jillian Chang"},
+    { name = "Kyle Gorman", email = "kylebgorman@gmail.com" },
+]
+keywords = [
+    "Latin",
+    "computational linguistics",
+    "language",
+    "natural language processing",
+    "phonetics",
+    "phonology",
+    "speech",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+    "protobuf>=3.20.2",
+]
+
+[project.scripts]
+latin-scan = "latin_scansion.scan:main"
+latin-validate = "latin_scansion.validate:main"
+
+[project.urls]
+Homepage = "https://github.com/CUNY-CL/latin_scansion"
+
+[tool.hatch.version]
+path = "latin_scansion/__init__.py"
+
+[tool.hatch.build.targets.wheel.shared-data]
+"LICENSE.txt" = "./LICENSE.txt"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/latin_scansion",
+]
