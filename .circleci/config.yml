@@ -19,35 +19,33 @@ jobs:
     parameters:
       python-version:
         type: string
-     docker:
+    docker:
       - image: cimg/python:<< parameters.python-version >>
-        # auth:
-        #   username: $DOCKERHUB_USERNAME
-        #   password: $DOCKERHUB_PASSWORD
     steps:
-        - checkout
-        - run:
-          name: Build Thrax grammars
-          command: |
-              conda env create --quiet --file environment.yml
-              source ~/.bashrc 
-              conda activate scansion
-              make -j -C grammars
-              make -C latin_scansion 
-        - run:
+      - checkout
+      - run:
+        name: Build Thrax grammars
+        command: |
+          conda env create --quiet --file environment.yml
+          source ~/.bashrc 
+          conda activate scansion
+          make -j -C grammars
+          make -C latin_scansion 
+      - run:
           name: Build source distribution and install package from it
           command: |
-              pip install -r requirements.txt
-              python -m build 
-              pip install dist/`ls dist/ | grep .whl`
+            pip install -r requirements.txt
+            python -m build 
+            pip install dist/`ls dist/ | grep .whl`
       - run:
           name: Show installed Python packages
           command: pip list -v
       - run:
           name: Run tests
           command: |
-              pytest -vv tests --junitxml /tmp/testxml/report.xml
-      - store_test_results: path: /tmp/testxml/
+            pytest -vv tests --junitxml /tmp/testxml/report.xml
+      - store_test_results:
+         path: /tmp/testxml/
 
 workflows:
   version: 2
