@@ -38,7 +38,7 @@ jobs:
     - run:
         name: Build source distribution and install package from it
         command: |
-            pip install -r requirements.txt
+            pip install --progress-bar off --requirements requirements.txt
             python -m build
             pip install dist/`ls dist/ | grep .whl`
     - run:
@@ -56,10 +56,10 @@ workflows:
     jobs:
     - pre-build:
         name: black
-        command-run: black --line-length=79 --check .
+        command-run: black --line-length=79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion tests
     - pre-build:
         name: flake8
-        command-run: flake8 .
+        command-run: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion tests
     - pre-build:
         name: twine
         command-run: |
