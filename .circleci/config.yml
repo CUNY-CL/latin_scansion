@@ -1,5 +1,6 @@
 version: 2.1
 
+
 jobs:
   pre-build:
     description: A check that needs to be done on only one supported Python
@@ -8,6 +9,9 @@ jobs:
         type: string
     docker:
     - image: cimg/python:3.12.1
+      auth:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_ACCESS_TOKEN
     steps:
     - checkout
     - run:
@@ -18,7 +22,7 @@ jobs:
   build-python:
     parameters:
       python-version:
-        type: string
+          type: string
     docker:
     - image: cimg/python:<< parameters.python-version >>
     steps:
