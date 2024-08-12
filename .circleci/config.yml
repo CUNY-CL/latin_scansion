@@ -45,7 +45,7 @@ jobs:
   build-python-3.10:
     <<: *template
     docker:
-      - image: python:3.10:
+      - image: python:3.10
   build-python-3.11:
     <<: *template
     docker:
