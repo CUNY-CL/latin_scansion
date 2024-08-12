@@ -36,8 +36,7 @@ jobs:
         name: Build source distribution and install package from it
         command: |
             pip install --progress-bar off --requirements requirements.txt
-            python -m build
-            pip install dist/`ls dist/ | grep .whl`
+            pip install -v .
     - run:
         name: Show installed Python packages
         command: pip list -v
