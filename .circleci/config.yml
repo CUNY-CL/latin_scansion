@@ -17,6 +17,14 @@ jobs:
     - run:
         command: pip install -r requirements.txt
     - run:
+        name: Build Thrax grammars
+        command: |
+            conda env create --quiet --file environment.yml
+            source ~/.bashrc
+            conda activate scansion
+            make -j -C grammars
+            make -C latin_scansion
+    - run:
         command: << parameters.command-run >>
 
   build-python:
@@ -25,16 +33,11 @@ jobs:
           type: string
     docker:
     - image: cimg/python:<< parameters.python-version >>
+      auth:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_ACCESS_TOKEN
     steps:
     - checkout
-    - run:
-        name: Build Thrax grammars
-        command: |
-            conda env create --quiet --file environment.yml
-            source ~/.bashrc
-            conda activate scansion
-            make -j -C grammars
-            make -C latin_scansion
     - run:
         name: Build source distribution and install package from it
         command: |
