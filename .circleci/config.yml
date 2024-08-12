@@ -65,7 +65,7 @@ workflows:
         command-run: |
             python -m build && \
             twine check dist/`ls dist/ | grep .tar.gz` && \
-            twine check dist/`ls dist/ | grep .whl`\n"
+            twine check dist/`ls dist/ | grep .whl`"
     - build-python:
         matrix:
           parameters:
