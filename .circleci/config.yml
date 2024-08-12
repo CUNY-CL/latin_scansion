@@ -4,26 +4,25 @@ workflows:
   version: 2
   test:
     jobs:
-      - build-python-3.7
       - build-python-3.8
       - build-python-3.9
+      - build-python-3.10
+      - build-python-3.11
+      - build-python-3.12
       - test-python
 
 jobs:
-  build-python-3.7: &template
+  build-python-3.8: &template
     docker:
-      - image: python:3.7
+      - image: python:3.8
     steps:
       - checkout
       - run:
           name: Builds source distribution
           working_directory: ~/project/
-          # Ensure we can build a source distribution that can correctly install.
-          # "python setup.py sdist" creates dist/latin_scansion-x.y.z.tar.gz
           command: |
-              pip install --progress-bar off --upgrade pip setuptools
-              python setup.py sdist
-              pip install dist/`ls dist/ | grep .tar.gz`
+              pip install --progress-bar off --upgrade pip
+              pip install -v .
       - run:
           name: Installs requirements
           working_directory: ~/project/
@@ -31,19 +30,27 @@ jobs:
       - run:
           name: Runs flake8 check
           working_directory: ~/project
-          command: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
+          command: flake8 --exclude latin_scansion/scansion_pb2.py latin_scansion
       - run:
           name: Runs black check
           working_directory: ~/project
-          command: black --line-length 79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
-  build-python-3.8:
-    <<: *template
-    docker:
-      - image: python:3.8
+          command: black --line-length 79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion tests
   build-python-3.9:
     <<: *template
     docker:
       - image: python:3.9
+  build-python-3.10:
+    <<: *template
+    docker:
+      - image: python:3.10
+  build-python-3.11:
+    <<: *template
+    docker:
+      - image: python:3.11
+  build-python-3.12:
+    <<: *template
+    docker:
+      - image: python:3.12
   test-python:
     docker:
       - image: continuumio/miniconda3

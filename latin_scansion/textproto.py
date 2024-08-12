@@ -1,6 +1,5 @@
 """Code for reading and writing scansion text-format protocol buffers."""
 
-
 from google.protobuf import text_format  # type: ignore
 
 from . import scansion_pb2  # type: ignore
@@ -25,7 +24,7 @@ def read_document(path: str) -> scansion_pb2.Document:
 
 
 def write_document(document: scansion_pb2.Document, path: str) -> None:
-    """Writes docuemnt message to file.
+    """Writes document message to file.
 
     Args:
       document: the document message to write
