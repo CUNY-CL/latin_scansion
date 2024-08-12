@@ -12,9 +12,9 @@ workflows:
       - test-python
 
 jobs:
-  build-python-3.7: &template
+  build-python-3.8: &template
     docker:
-      - image: python:3.7
+      - image: python:3.8
     steps:
       - checkout
       - run:
@@ -38,14 +38,22 @@ jobs:
           name: Runs black check
           working_directory: ~/project
           command: black --line-length 79 --check --exclude latin_scansion/scansion_pb2.py latin_scansion setup.py tests
-  build-python-3.8:
-    <<: *template
-    docker:
-      - image: python:3.8
   build-python-3.9:
     <<: *template
     docker:
       - image: python:3.9
+  build-python-3.10:
+    <<: *template
+    docker:
+      - image: python:3.10:
+  build-python-3.11:
+    <<: *template
+    docker:
+      - image: python:3.11
+  build-python-3.12:
+    <<: *template
+    docker:
+      - image: python:3.12
   test-python:
     docker:
       - image: continuumio/miniconda3
