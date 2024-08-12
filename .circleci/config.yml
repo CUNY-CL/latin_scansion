@@ -35,7 +35,7 @@ jobs:
     - run:
         name: Build source distribution and install package from it
         command: |
-            pip install --progress-bar off --requirements requirements.txt
+            pip install --progress-bar off --requirement requirements.txt
             pip install -v .
     - run:
         name: Show installed Python packages
