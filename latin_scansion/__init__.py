@@ -1,5 +1,3 @@
-import pkg_resources
-
 from .scansion import scan_document
 from .scansion import scan_verse
 from .scansion_pb2 import Document
@@ -10,7 +8,7 @@ from .textproto import read_document
 from .textproto import write_document
 
 
-__version__ = pkg_resources.get_distribution("latin_scansion").version
+__version__ = "0.1.3"
 __all__ = [
     "__version__",
     "read_document",
