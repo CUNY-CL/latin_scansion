@@ -45,17 +45,17 @@ This second step needs to be repeated each time you start a new shell.
 
 Installation produces two command-line tools:
 
--   [`latin_scan`](latin_scansion/cli/scan.py) scans a document, generating a
+-   [`latin-scan`](latin_scansion/cli/scan.py) scans a document, generating a
     human-readable
     [textproto](https://medium.com/@nathantnorth/protocol-buffers-text-format-14e0584f70a5)
     representation of document's scansion. Sample usage:
 
-        latin_scan --far grammars/all.far data/Aeneid/Aeneid01.txt data/Aeneid/Aeneid01.textproto
+        latin-scan --far grammars/all.far data/Aeneid/Aeneid01.txt data/Aeneid/Aeneid01.textproto
 
--   [`latin_validate`](latin_scansion/cli/validate.py) validates (and
+-   [`latin-validate`](latin_scansion/cli/validate.py) validates (and
     optionally, canonicalizes) a textproto document scansion. Sample usage:
 
-        latin_validate data/Aeneid/Aeneid01.textproto
+        latin-validate data/Aeneid/Aeneid01.textproto
 
 ## Testing
 
